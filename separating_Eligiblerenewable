@@ -1,0 +1,26 @@
+import pandas as pd
+
+# Read your original dataset
+original_data = pd.read_csv('C:\\Mergefiles\\output.csv')  # Replace with your actual dataset path
+
+# Initialize an empty list to store the separated data
+separated_data = []
+
+# Iterate through each row in the original dataset
+for index, row in original_data.iterrows():
+    program_name = row['Program_Name']
+    sectors = row['Eligible Renewable/Other Technologies'].split(', ') if not pd.isna(row['Eligible Renewable/Other Technologies']) else []
+
+    # Create a new row for each sector associated with the program name
+    for sector in sectors:
+        separated_data.append([program_name, sector])
+
+# Create a new DataFrame for the separated data
+new_dataset = pd.DataFrame(separated_data, columns=['Program_Name', 'Eligible Renewable/Other Technologies'])
+
+# Remove duplicate rows to ensure uniqueness
+new_dataset.drop_duplicates(inplace=True)
+
+# Specify the file path and name where you want to save the new dataset
+# Change 'separated_dataset.csv' to your desired file path and name
+new_dataset.to_csv('C:\\Mergefiles\\separated_dataset.csv', index=False)
