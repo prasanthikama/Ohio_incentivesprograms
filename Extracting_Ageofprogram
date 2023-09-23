@@ -1,0 +1,26 @@
+import pandas as pd
+from datetime import datetime
+
+# Load the dataset into a DataFrame
+df = pd.read_csv('C:\\Ohiodata_Report\\mergedohiodata1.csv')  # Use read_csv for CSV files
+
+# Convert the "Created" column to datetime format
+df['Created'] = pd.to_datetime(df['Created'], format='%m/%d/%Y')
+
+# Calculate the age of incentive in years
+df['Age of Incentive'] = (datetime.now() - df['Created']).astype('<m8[Y]')
+
+# Display the updated DataFrame
+print(df)
+
+# Convert the "Last Updated" column to datetime format
+df['Last Updated'] = pd.to_datetime(df['Last Updated'], format='%m/%d/%Y')
+
+# Extract the year and assign it to a new column
+df['Year'] = df['Last Updated'].dt.year
+
+# Display the updated DataFrame
+print(df['Year'])
+
+# Save the updated DataFrame to a CSV file
+df.to_csv('C:\\Ohiodata_Report\\Age_of_programs.csv', index=False)  # Corrected the file path
