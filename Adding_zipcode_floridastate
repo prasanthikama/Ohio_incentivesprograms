@@ -1,0 +1,33 @@
+import os
+import pandas as pd
+
+# Define a function to extract zip code from file name
+def extract_zip_code_from_file_name(file_name):
+    # Implement your extraction logic here
+    # For example, if the zip code is in the first 5 characters of the file name
+    return file_name[8:13]
+
+# Specify the directory where your data files are located
+directory_path = "C:\\DSIRE_Florida_CSV"
+
+# List all files in the directory
+file_list = os.listdir(directory_path)
+
+# Loop through each file
+for file_name in file_list:
+    if file_name.endswith('.csv'):
+        # Extract zip code from file name using your defined logic
+        extracted_zip_code = extract_zip_code_from_file_name(file_name)
+
+        # Read the data file
+        data = pd.read_csv(os.path.join(directory_path, file_name))
+
+        # Add a new 'Zip Code' column and populate it with the extracted value
+        data['Zip Code'] = extracted_zip_code
+
+        # Specify the output directory and modified file name
+        output_directory = "C:\\addzipflorida2"
+        modified_file_name = file_name.replace('.csv', '_modified.csv')
+
+        # Save the modified data to a new file in the output directory
+        data.to_csv(os.path.join(output_directory, modified_file_name), index=False)
