@@ -1,0 +1,31 @@
+import os
+import pandas as pd
+
+# Define the folder where your CSV files are located
+source_folder = r'C:\\Final Incentive Dashboard'
+
+# Initialize an empty list to store DataFrames
+dataframes = []
+
+# Iterate through all files in the folder
+for filename in os.listdir(source_folder):
+    if filename.endswith('.csv'):  # Check if the file is a CSV file
+        file_path = os.path.join(source_folder, filename)
+        try:
+            df = pd.read_csv(file_path)  # Read the CSV file into a DataFrame
+            dataframes.append(df)  # Append the DataFrame to the list
+        except Exception as e:
+            print(f"Error reading file {filename}: {str(e)}")
+
+# Concatenate all DataFrames in the list into one DataFrame
+appended_data =pd.concat(dataframes,ignore_index=True)
+
+# Define the path for the output CSV file
+#output_file_path = 'C:\\Users\\prasa\\Downloads\\output.csv'
+output_file_path = 'C:\\Final_Incentive_combineddata\\Combineddata.csv'
+# Write the appended data to a new CSV file
+try:
+    appended_data.to_csv(output_file_path, index=False)
+    print(f'Appended data saved to {output_file_path}')
+except Exception as e:
+    print(f"Error saving to CSV: {str(e)}")
